@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>indyrp2_description</name>
-  <version>0.3.4</version>
+  <version>1.0.0</version>
   <description>The indyrp2_description package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
