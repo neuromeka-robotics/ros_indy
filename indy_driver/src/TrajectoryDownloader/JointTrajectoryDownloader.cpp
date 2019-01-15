@@ -8,13 +8,13 @@ typedef trajectory_msgs::JointTrajectoryPoint  ros_JointTrajPt;
 
 #define ROS_ERROR_RETURN(rtn,...) do {ROS_ERROR(__VA_ARGS__); return(rtn);} while(0)
 
-JointTrajectoryDownloader::JointTrajectoryDownloader()
+JointTrajectoryDownloader::JointTrajectoryDownloader(int joint_dof)
+: _joint_dof(joint_dof)
 {
 }
 
 JointTrajectoryDownloader::~JointTrajectoryDownloader()
 {
-
 	trajectoryStop();
 	this->sub_joint_trajectory_.shutdown();
 }
@@ -110,23 +110,25 @@ void JointTrajectoryDownloader::jointTrajectoryCB(const trajectory_msgs::JointTr
 	{
 		Data data;
 		data.int2dArr[0] = 11; // Extended Joint Waypoint Set Command
-		data.int2dArr[1] = numPoints*(JOINT_DOF*sizeof(double)); // Extended Waypoint Set Command
+		data.int2dArr[1] = numPoints*(_joint_dof*sizeof(double)); // Extended Waypoint Set Command
 
 		if (!_indySocket.sendCommand(800, data, 8))
 			return;
 
-		unsigned char * exDataBuff = new unsigned char[numPoints*(JOINT_DOF*sizeof(double))];
+		unsigned char * exDataBuff = new unsigned char[numPoints*(_joint_dof*sizeof(double))];
+		double * jTar = new double[_joint_dof];
 		unsigned int exIdx = 0;
 		for (int i = 0; i < numPoints; i++)
 		{			
-			for (int j = 0; j < JOINT_DOF; j++)
-				_jTar[j] = msg->points[i].positions[j];
+			for (int j = 0; j < _joint_dof; j++)
+				jTar[j] = msg->points[i].positions[j];
 			
-			memcpy(exDataBuff + exIdx, _jTar, JOINT_DOF*sizeof(double));
-			exIdx += JOINT_DOF*sizeof(double);
+			memcpy(exDataBuff + exIdx, jTar, _joint_dof*sizeof(double));
+			exIdx += _joint_dof*sizeof(double);
 		}
 		
-		bool res = _indySocket.sendExData(exDataBuff, numPoints*(JOINT_DOF*sizeof(double)));
+		bool res = _indySocket.sendExData(exDataBuff, numPoints*(_joint_dof*sizeof(double)));
+		delete [] jTar;
 		delete [] exDataBuff;
 	}
 }
@@ -136,7 +138,7 @@ void JointTrajectoryDownloader::jointStateCB(const sensor_msgs::JointStateConstP
 {
   this->cur_joint_pos_ = *msg;
   // printf("Received Joint States: ");
-  // for (int i = 0; i < JOINT_DOF; i++)
+  // for (int i = 0; i < _joint_dof; i++)
   // 	printf("[%s]: %f, ", this->cur_joint_pos_.name[i].c_str(), this->cur_joint_pos_.position[i]*180.0/3.1415);
   // printf("\n");
 }

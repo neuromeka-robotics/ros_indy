@@ -20,13 +20,9 @@ using industrial::joint_traj_pt_message::JointTrajPtMessage;
 
 class JointTrajectoryDownloader
 {
-	enum
-	{
-		JOINT_DOF = 6
-	};
 
 public:
-	JointTrajectoryDownloader();
+	JointTrajectoryDownloader(int joint_dof);
 	~JointTrajectoryDownloader();
 
 	void trajectoryStop();
@@ -52,7 +48,7 @@ private:
 
 	IndyDCPSocket _indySocket;
 
-	double _jTar[JOINT_DOF];
+	int _joint_dof;
 };
 
 #endif /* JOINT_TRAJECTORY_DOWNLOADER_H */

@@ -157,15 +157,29 @@ include_directories(
 
 add_subdirectory(src/SocketHandler)
 
-add_executable(indy_state_publisher src/indy_state_publisher.cpp)
-target_link_libraries(indy_state_publisher 
+add_executable(indy6d_state_publisher src/indy6d_state_publisher.cpp)
+target_link_libraries(indy6d_state_publisher 
   ${catkin_LIBRARIES}
   IndyDCPSocket
   industrial_robot_client
 )
 
-add_executable(indy_motion_downloader src/indy_motion_downloader.cpp src/TrajectoryDownloader/JointTrajectoryDownloader.cpp)
-target_link_libraries(indy_motion_downloader 
+add_executable(indy6d_motion_downloader src/indy6d_motion_downloader.cpp src/TrajectoryDownloader/JointTrajectoryDownloader.cpp)
+target_link_libraries(indy6d_motion_downloader 
+  ${catkin_LIBRARIES}  
+  IndyDCPSocket
+  industrial_robot_client
+)
+
+add_executable(indy7d_state_publisher src/indy7d_state_publisher.cpp)
+target_link_libraries(indy7d_state_publisher 
+  ${catkin_LIBRARIES}
+  IndyDCPSocket
+  industrial_robot_client
+)
+
+add_executable(indy7d_motion_downloader src/indy7d_motion_downloader.cpp src/TrajectoryDownloader/JointTrajectoryDownloader.cpp)
+target_link_libraries(indy7d_motion_downloader 
   ${catkin_LIBRARIES}  
   IndyDCPSocket
   industrial_robot_client

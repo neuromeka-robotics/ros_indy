@@ -4,9 +4,11 @@
 
 #include "SocketHandler/IndyDCPSocket.h"
 
+#define JOINT_DOF 6
+
 int main(int argc, char ** argv)
 {
-	ros::init(argc, argv, "indy_state_publisher");
+	ros::init(argc, argv, "indy6d_state_publisher");
 	ros::NodeHandle n;
 	ros::Publisher joint_pub = n.advertise<sensor_msgs::JointState>("joint_states", 10);
 	
@@ -41,7 +43,7 @@ int main(int argc, char ** argv)
 
 	IndyDCPSocket indySocket;
 	indySocket.init(robotName, ip, port);
-	double q[6];
+	double q[JOINT_DOF];
 
 	// message declaration
 	sensor_msgs::JointState joint_state;
@@ -56,19 +58,19 @@ int main(int argc, char ** argv)
 			indySocket.sendCommand(320, data, 0);
 			indySocket.getFeedback(320, data, len);
 			// printf("q: ");
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < JOINT_DOF; i++)
 				q[i] = data.double6dArr[i];			
 			// printf("\n");
 		}
 
 		joint_state.header.stamp = ros::Time::now();
-		joint_state.name.resize(6);
-		joint_state.position.resize(6);
+		joint_state.name.resize(JOINT_DOF);
+		joint_state.position.resize(JOINT_DOF);
 
 		joint_state.name[0] = "joint0";
 		joint_state.position[0] = q[0] * degree;
 		joint_state.name[1] = "joint1";
-		joint_state.position[1] = q[1] * degree;; //-q[1] * degree;
+		joint_state.position[1] = q[1] * degree;
 		joint_state.name[2] = "joint2";
 		joint_state.position[2] = q[2] * degree;
 		joint_state.name[3] = "joint3";
