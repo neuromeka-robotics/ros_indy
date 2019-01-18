@@ -2,8 +2,8 @@
 Changelog for package indyrp_moveit_config
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.3 (2019-01-18)
+------------------
 * Fixed xacro loadding for planning context
 * Fixed indy_driver for 7-dof robot
 * Contributors: Thach Do
