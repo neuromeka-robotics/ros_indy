@@ -2,6 +2,11 @@
 Changelog for package indy_driver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fixed indy_driver for 7-dof robot
+* Contributors: Thach Do
+
 1.0.2 (2019-01-08)
 ------------------
 * Fixed packages' information

@@ -2,6 +2,9 @@
 Changelog for package indyrp2_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.0.2 (2019-01-08)
 ------------------
 * Fixed packages' information
